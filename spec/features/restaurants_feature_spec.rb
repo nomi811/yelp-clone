@@ -70,7 +70,9 @@ feature 'restaurants' do
     end
 
     context 'an invalid restaurant' do
-      scenario 'does note let you submit a name that is too short' do
+      let!(:kfc) { Restaurant.create(name: 'KFC') }
+
+      scenario 'does not let you submit a name that is too short' do
         visit '/restaurants'
         click_link 'Add a restaurant'
         fill_in 'Name', with: 'kf'
@@ -79,6 +81,14 @@ feature 'restaurants' do
         expect(page).to have_content 'error'
       end
 
+      scenario 'only a unique restaurant can be added' do
+        visit '/restaurants'
+        click_link 'Add a restaurant'
+        fill_in 'Name', with: 'KFC'
+        click_button 'Create Restaurant'
+        expect(page).to have_content 'error'
+      end
     end
+
   end
 end
