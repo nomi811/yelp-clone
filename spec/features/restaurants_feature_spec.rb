@@ -1,5 +1,3 @@
-require 'rails_helper'
-
 feature 'restaurants' do
 
   context 'delete restaurants' do
