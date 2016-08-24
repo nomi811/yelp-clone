@@ -70,7 +70,8 @@ feature 'restaurants' do
      click_button 'Update Restaurant'
      expect(page).to have_content 'Kentucky Fried Chicken'
      expect(page).to have_content 'Deep fried goodness'
-     expect(current_path).to eq '/restaurants'
+    #  expect(current_path).to eq "/restaurants/#{kfc.id}"
+    expect(current_path).to eq "/restaurants"
     end
   end
 
