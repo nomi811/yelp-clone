@@ -4,10 +4,19 @@ feature 'restaurants' do
     before { Restaurant.create name: 'KFC', description: 'Deep fried goodness' }
 
     scenario 'removes a restaurant when clicks delete' do
+      sign_up
       visit '/restaurants'
       click_link 'Delete KFC'
       expect(page).not_to have_content 'KFC'
       expect(page).to have_content 'Restaurant deleted successfully'
+    end
+  end
+
+  context 'not signed in' do
+    scenario 'cannot create restaurant' do
+      visit '/restaurants'
+      click_link 'Add a restaurant'
+      expect(page).not_to have_xpath '//*[@id="new_restaurant"]'
     end
   end
 
@@ -27,6 +36,7 @@ feature 'restaurants' do
     before { Restaurant.create name: 'KFC', description: 'Deep fried goodness' }
 
     scenario 'let a user edit a restaurant' do
+      sign_up
       visit '/restaurants'
       click_link 'Edit KFC'
       fill_in 'Name', with: 'Kentucky Fried Chicken'
@@ -60,6 +70,8 @@ feature 'restaurants' do
   end
 
   context 'creating restaurants' do
+    before { sign_up }
+
     scenario 'prompts user to fill out a form, then displays the new restaruant' do
       visit '/restaurants'
       click_link 'Add a restaurant'
